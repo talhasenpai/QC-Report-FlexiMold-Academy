@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QC Report: Fleximold Academy v1.0.0</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* VSCode Markdown Preview Styles */
+        :root {
+            --vscode-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            --vscode-font-weight: normal;
+            --vscode-font-size: 14px;
+            --vscode-line-height: 1.6;
+            --vscode-editor-background: #ffffff;
+            --vscode-editor-foreground: #333333;
+            --vscode-textLink-foreground: #4080D0;
+            --vscode-textLink-activeForeground: #4080D0;
+            --vscode-textBlockQuote-background: #f2f2f2;
+            --vscode-textBlockQuote-border: #007acc;
+            --vscode-textCodeBlock-background: #f5f5f5;
+            --vscode-textPreformat-foreground: #A31515;
+        }
+
+        body {
+            font-family: var(--vscode-font-family);
+            font-size: var(--vscode-font-size);
+            line-height: var(--vscode-line-height);
+            color: var(--vscode-editor-foreground);
+            background-color: var(--vscode-editor-background);
+            padding: 0 20px;
+            max-width: 980px;
+            margin: 0 auto;
+            word-wrap: break-word;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.2;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 2em;
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 0.3em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 0.3em;
+        }
+
+        h3 {
+            font-size: 1.25em;
+        }
+
+        h4 {
+            font-size: 1em;
+        }
+
+        h5, h6 {
+            font-size: 0.875em;
+        }
+
+        a {
+            color: var(--vscode-textLink-foreground);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            background-color: var(--vscode-textCodeBlock-background);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: var(--vscode-textCodeBlock-background);
+            padding: 16px;
+            overflow: auto;
+            border-radius: 3px;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        blockquote {
+            margin: 0;
+            padding: 0 1em;
+            color: #6a737d;
+            border-left: 0.25em solid #dfe2e5;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+        }
+
+        table th {
+            font-weight: 600;
+            background-color: #f6f8fa;
+        }
+
+        table th,
+        table td {
+            padding: 6px 13px;
+            border: 1px solid #dfe2e5;
+        }
+
+        table tr {
+            background-color: #ffffff;
+            border-top: 1px solid #c6cbd1;
+        }
+
+        table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+
+        hr {
+            height: 0.25em;
+            padding: 0;
+            margin: 24px 0;
+            background-color: #e1e4e8;
+            border: 0;
+        }
+
+        strong {
+            font-weight: 600;
+        }
+
+        ul, ol {
+            padding-left: 2em;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+
+        li + li {
+            margin-top: 0.25em;
+        }
+
+        /* Video Thumbnail Styles */
+        .video-link {
+            display: inline-block;
+            position: relative;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .video-link:hover {
+            transform: scale(1.02);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            display: inline-block;
+            width: 320px;
+            height: 180px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-thumbnail video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-thumbnail::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-thumbnail::before {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-40%, -50%);
+            font-size: 24px;
+            color: #000;
+            z-index: 2;
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s;
+        }
+
+        .lightbox.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            animation: zoomIn 0.3s;
+        }
+
+        .lightbox-content video {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s;
+        }
+
+        .lightbox-close:hover {
+            opacity: 0.7;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* Dark mode support (optional) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --vscode-editor-background: #1e1e1e;
+                --vscode-editor-foreground: #d4d4d4;
+                --vscode-textCodeBlock-background: #2d2d2d;
+            }
+
+            table tr {
+                background-color: #1e1e1e;
+            }
+
+            table tr:nth-child(2n) {
+                background-color: #2d2d2d;
+            }
+
+            table th {
+                background-color: #2d2d2d;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 0 10px;
+            }
+
+            .video-thumbnail {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="markdown-content"></div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <video id="lightbox-video" controls>
+                <source id="lightbox-source" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        // Markdown content
+        const markdownContent = `# QC REPORT: Fleximold Academy v1.0.0
+**Package:** com.codeehouse.fleximold_academy | **APK Size:** 59.7 MB | **Download:** 30.6 MB
+
+---
+
+## EXECUTIVE SUMMARY
+Initial Testing revealed **9 functional issues** requiring fixes before production release. App is functional but has significant UX problems and two critical bugs that block core functionality.
+
+---
+
+## 1. APK ANALYSIS
+
+| Metric | Value | Assessment |
+|--------|-------|------------|
+| APK Size | 59.7 MB | ⚠️ Large (81% is native libs) |
+| Download Size | 30.6 MB | ✅ Acceptable |
+| Min SDK | API 30 (Android 11) | ⚠️ Excludes 40% of devices |
+| Target SDK | API 36 | 🔴 Too high (use SDK 34) |
+| Minification | ❌ Disabled | 🔴 **Security Risk** |
+| MultiDex | ✅ Enabled | ⚠️ 64K+ methods |
+
+**Critical Config Issues:**
+-  **R8/ProGuard OFF** - Code easily decompiled, no obfuscation
+-  **Target SDK 36** - Should be SDK 34 (current stable)
+-  **APK 81% native libs** - Use App Bundle to reduce by 60%
+
+---
+
+## 2. FUNCTIONAL BUGS FOUND
+
+###  **CRITICAL** - Blocks Core Features
+
+#### BUG #6: Explore Courses Button Irresponsive
+**Location:** My Courses > "Explore Courses" button
+**Issue:** Button completely non-functional, no response on tap
+**Impact:** Users cannot discover/browse available courses
+**Priority:** Must fix - critical user flow broken
+
+**📹 Video:** [Glitch 6.mp4](Glitch%206.mp4)
+
+#### BUG #10: Forgot Password Email Not Sending
+**Location:** Login screen > "Forgot Password" flow
+**Issue:** Password reset emails are not being delivered to users
+**Impact:** Users locked out of accounts cannot recover access
+**Priority:** Must fix - blocks account recovery entirely
+
+---
+
+###  **MAJOR** - Significant UX Impact
+
+#### BUG #1: Sign-Up Form Not Scrollable
+**Issue:** Sign-up form fields extend beyond screen, cannot scroll to see/access bottom fields
+**Impact:** Users cannot complete registration on smaller screens
+**Workaround:** None
+
+**📹 Video:** [Glitch 1.mp4](Glitch%201.mp4)
+
+#### BUG #2: Cards Overflow Content
+**Issue:** When price/discount increases content size, text overflows card boundaries
+**Example:** Long prices like "12,999 (50% OFF)" break card layout
+**Impact:** Unprofessional appearance, text cut off or overlapping
+
+**📹 Video:** [Glitch 2.mp4](Glitch%202.mp4)
+
+
+#### BUG #3: Video Iframe Slow Removal on Back Navigation
+**Issue:** When navigating back from Course page, video iframe remains visible for 2-3 seconds
+**Impact:** Very poor UX - users see broken UI state during transition
+
+**📹 Video:** [Glitch 3.mp4](Glitch%203.mp4)
+
+
+#### BUG #4: Video Player Missing Controls
+**Issues:**
+- No fullscreen button
+- Navigation bar too small for precise control
+- Difficult to skip/seek on mobile screen
+**Impact:** Poor video viewing experience
+
+**📹 Video:** [Glitch 4.mp4](Glitch%204.mp4)
+
+
+#### BUG #5: Video URL Displayed Instead of Title
+**Issue:** Course videos show raw URL instead of video title
+**Impact:** Looks unprofessional, users don't know video content
+
+**📹 Video:** [Glitch 5.mp4](Glitch%205.mp4)
+
+
+#### BUG #7: Notification Stacking Issue
+**Issue:** Multiple rapid button taps create stacked notifications, cluttering UI
+**Impact:** Annoying user experience, screen floods with duplicate notifications
+
+**📹 Video:** [Glitch 7.mp4](Glitch%207.mp4)
+
+#### BUG #8: Sections Irresponsive
+**Issue:** Section buttons/links not responding to taps
+**Impact:** Cannot navigate to course sections
+
+**📹 Video:** [Glitch 8.mp4](Glitch%208.mp4)
+
+
+---
+
+###  **MINOR** - Low Impact
+
+#### BUG #9: Grammatical Errors in Notifications
+**Issue:** Notification text contains spelling/grammar mistakes
+**Examples:** [Add specific examples if noted]
+**Impact:** Unprofessional appearance
+
+
+---
+`;
+
+        // Parse markdown
+        const htmlContent = marked.parse(markdownContent);
+        document.getElementById('markdown-content').innerHTML = htmlContent;
+
+        // Convert video links to thumbnails
+        const videoLinks = document.querySelectorAll('a[href$=".mp4"]');
+        videoLinks.forEach(link => {
+            const videoSrc = decodeURIComponent(link.getAttribute('href'));
+            const videoName = link.textContent;
+
+            // Create thumbnail container
+            const thumbnailContainer = document.createElement('div');
+            thumbnailContainer.className = 'video-link';
+            thumbnailContainer.onclick = () => openLightbox(videoSrc);
+
+            // Create thumbnail with video preview
+            const thumbnail = document.createElement('div');
+            thumbnail.className = 'video-thumbnail';
+
+            const video = document.createElement('video');
+            video.src = videoSrc;
+            video.muted = true;
+            video.preload = 'metadata';
+
+            thumbnail.appendChild(video);
+            thumbnailContainer.appendChild(thumbnail);
+
+            // Create text label
+            const label = document.createElement('div');
+            label.textContent = '🎬 ' + videoName;
+            label.style.marginTop = '5px';
+            label.style.fontSize = '13px';
+            label.style.color = '#0066cc';
+            thumbnailContainer.appendChild(label);
+
+            // Replace link with thumbnail
+            link.parentNode.replaceChild(thumbnailContainer, link);
+        });
+
+        // Lightbox functions
+        function openLightbox(videoSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const video = document.getElementById('lightbox-video');
+            const source = document.getElementById('lightbox-source');
+
+            source.src = videoSrc;
+            video.load();
+            lightbox.classList.add('active');
+            video.play();
+
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const video = document.getElementById('lightbox-video');
+
+            video.pause();
+            video.currentTime = 0;
+            lightbox.classList.remove('active');
+
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close lightbox on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox when clicking outside video
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
